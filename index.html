@@ -103,6 +103,63 @@ footer img{width:190px;margin-bottom:12px}
   padding:13px 18px;border-radius:999px;font-weight:900;box-shadow:0 10px 30px rgba(0,0,0,.45)
 }
 .notice{font-size:12px;color:#888;margin-top:15px}
+
+/* ===== Pizza Heart v2 ===== */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+.menu-card{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.menu-card:hover{transform:translateY(-5px);border-color:#4a4a4a;box-shadow:0 20px 45px rgba(0,0,0,.35)}
+.item{position:relative}
+.add-btn{border:0;background:#2a2a2a;color:#fff;border-radius:9px;padding:6px 8px;font:inherit;font-size:11px;font-weight:800;cursor:pointer;transition:.2s}
+.add-btn:hover{background:var(--red);transform:scale(1.04)}
+.item .add-btn{display:block;grid-column:3}
+.pizza-item{grid-template-columns:1fr 58px 58px 100px !important}
+.pizza-item .add-btn{grid-column:4}
+.single-item{grid-template-columns:1fr 80px 58px !important}
+.single-item .add-btn{grid-column:3}
+.cart-fab{position:fixed;left:18px;bottom:18px;z-index:70;background:var(--red);color:#fff;border:0;border-radius:999px;padding:13px 18px;font:inherit;font-weight:900;box-shadow:0 12px 35px rgba(0,0,0,.5);cursor:pointer;display:none}
+.cart-fab.show{display:block;animation:pop .25s ease}
+.cart-count{background:#fff;color:#111;border-radius:999px;padding:1px 7px;margin-right:5px}
+@keyframes pop{0%{transform:scale(.8)}100%{transform:scale(1)}}
+@keyframes floatPizza{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-9px) rotate(1deg)}}
+.hero-logo{animation:floatPizza 5s ease-in-out infinite}
+.offer-grid,.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.offer-card,.review-card{background:linear-gradient(145deg,#1b1b1b,#101010);border:1px solid #2d2d2d;border-radius:20px;padding:26px;position:relative;overflow:hidden}
+.offer-card:after{content:"♥";position:absolute;left:-10px;bottom:-35px;font-size:110px;color:rgba(224,0,0,.06)}
+.offer-card .offer-icon{font-size:34px}.offer-card h3{font-size:22px;margin:8px 0}.offer-card p,.review-card p{color:var(--muted);font-size:14px}
+.offer-note{display:inline-block;margin-top:14px;color:var(--gold);font-weight:800;font-size:13px}
+.review-stars{color:var(--gold);letter-spacing:3px;font-size:18px}
+.review-card h3{margin:7px 0}
+.contact-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.contact-actions .btn{min-width:190px;justify-content:center}
+.mobile-bar{display:none}
+.order-modal{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.order-modal.open{display:flex}
+.order-panel{background:#141414;border:1px solid #333;width:min(650px,100%);max-height:82vh;overflow:auto;border-radius:25px 25px 0 0;padding:24px}
+.order-panel-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #303030;padding-bottom:15px}
+.close-modal{border:0;background:#292929;color:#fff;border-radius:50%;width:38px;height:38px;font-size:20px;cursor:pointer}
+.cart-line{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px dashed #333}
+.cart-line small{display:block;color:#999}.qty{display:flex;align-items:center;gap:7px}
+.qty button{width:28px;height:28px;border:0;border-radius:7px;background:#292929;color:#fff;cursor:pointer}
+.total-row{display:flex;justify-content:space-between;font-size:21px;font-weight:900;padding:18px 0}
+.checkout{width:100%;justify-content:center;background:var(--green);color:#06150a;border-color:var(--green)}
+.empty-cart{text-align:center;color:#999;padding:35px 10px}
+.section-spacer{height:1px}
+@media(max-width:850px){
+  .offer-grid,.review-grid{grid-template-columns:1fr}
+  .mobile-bar{display:flex;position:fixed;left:10px;right:10px;bottom:10px;z-index:65;background:rgba(16,16,16,.94);border:1px solid #333;border-radius:18px;padding:8px;justify-content:space-around;box-shadow:0 12px 35px rgba(0,0,0,.55);backdrop-filter:blur(10px)}
+  .mobile-bar a,.mobile-bar button{background:transparent;border:0;color:#ddd;font:inherit;font-size:11px;font-weight:800;text-align:center;cursor:pointer}
+  .mobile-bar span{display:block;font-size:20px;line-height:1.1}
+  .float-order{bottom:78px}
+  .cart-fab{bottom:78px;left:12px}
+  footer{padding-bottom:115px}
+}
+@media(max-width:500px){
+  .pizza-item{grid-template-columns:1fr 45px 45px 76px !important}
+  .single-item{grid-template-columns:1fr 65px 48px !important}
+  .add-btn{font-size:10px;padding:6px 5px}
+}
+
 @media(max-width:850px){
   .nav-links{display:none}
   .nav-logo{height:48px;width:135px}
@@ -136,6 +193,7 @@ footer img{width:190px;margin-bottom:12px}
     <div class="nav-links">
       <a href="#home">الرئيسية</a>
       <a href="#menu">المنيو</a>
+      <a href="#offers">العروض</a>
       <a href="#order">اطلب الآن</a>
       <a href="#contact">تواصل معنا</a>
     </div>
@@ -147,7 +205,7 @@ footer img{width:190px;margin-bottom:12px}
 <section class="hero" id="home">
   <div class="container hero-grid">
     <div class="hero-copy">
-      <div class="eyebrow">MADE WITH LOVE ❤️</div>
+      <div class="eyebrow">❤️ MADE WITH LOVE</div>
       <h1>PIZZA <span>HEART</span></h1>
       <h2>Your Heart's Favourite Pizza</h2>
       <p>بيتزا معمولة بحب، وطعم يخلي كل لقمة ليها مكان في قلبك. اختار من المنيو واطلب على الواتساب.</p>
@@ -183,25 +241,25 @@ footer img{width:190px;margin-bottom:12px}
     <div class="menu-grid">
       <article class="menu-card" data-category="pizza">
         <div class="card-title"><h3>Chicken Pizza</h3><span class="badge">L / M</span></div>
-        <div class="price-head"><span>الصنف</span><span>L</span><span>M</span></div>
+        <div class="price-head"><span>الصنف</span><span>L</span><span>M</span><span>إضافة</span></div>
         <div id="chicken-pizza"></div>
       </article>
 
       <article class="menu-card" data-category="pizza">
         <div class="card-title"><h3>Beef Pizza</h3><span class="badge">L / M</span></div>
-        <div class="price-head"><span>الصنف</span><span>L</span><span>M</span></div>
+        <div class="price-head"><span>الصنف</span><span>L</span><span>M</span><span>إضافة</span></div>
         <div id="beef-pizza"></div>
       </article>
 
       <article class="menu-card" data-category="pizza">
         <div class="card-title"><h3>Cheese Pizza</h3><span class="badge">L / M</span></div>
-        <div class="price-head"><span>الصنف</span><span>L</span><span>M</span></div>
+        <div class="price-head"><span>الصنف</span><span>L</span><span>M</span><span>إضافة</span></div>
         <div id="cheese-pizza"></div>
       </article>
 
       <article class="menu-card" data-category="pizza">
         <div class="card-title"><h3>Sea Food Pizza</h3><span class="badge">L / M</span></div>
-        <div class="price-head"><span>الصنف</span><span>L</span><span>M</span></div>
+        <div class="price-head"><span>الصنف</span><span>L</span><span>M</span><span>إضافة</span></div>
         <div id="sea-pizza"></div>
       </article>
 
@@ -244,6 +302,52 @@ footer img{width:190px;margin-bottom:12px}
   </div>
 </section>
 
+
+<section id="offers">
+  <div class="container">
+    <div class="section-head">
+      <div class="tag">SPECIAL FOR YOU ❤️</div>
+      <h2>Pizza Heart Offers</h2>
+      <p>العروض تتغير باستمرار — تابعنا أو اسألنا على WhatsApp عن العروض الحالية.</p>
+    </div>
+    <div class="offer-grid">
+      <article class="offer-card">
+        <div class="offer-icon">🍕</div><h3>Pizza Deals</h3>
+        <p>اسأل عن عروض البيتزا المتاحة حاليًا واختار وجبتك المفضلة.</p>
+        <span class="offer-note">ASK ON WHATSAPP</span>
+      </article>
+      <article class="offer-card">
+        <div class="offer-icon">🍔</div><h3>Meal Deals</h3>
+        <p>عروض ووجبات مناسبة لو نفسك في وجبة كاملة.</p>
+        <span class="offer-note">ASK ON WHATSAPP</span>
+      </article>
+      <article class="offer-card">
+        <div class="offer-icon">❤️</div><h3>Pizza Heart Special</h3>
+        <p>تابع العروض الخاصة بالمطعم أول بأول.</p>
+        <span class="offer-note">ORDER & ASK</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="container">
+    <div class="section-head">
+      <div class="tag">YOUR OPINION MATTERS</div>
+      <h2>Customer Reviews</h2>
+      <p>جرب Pizza Heart؟ شاركنا رأيك وخلي تقييمك يظهر هنا ❤️</p>
+    </div>
+    <div class="review-grid">
+      <article class="review-card"><div class="review-stars">★★★★★</div><h3>شاركنا تجربتك</h3><p>اكتب رأيك عن البيتزا والخدمة على WhatsApp.</p></article>
+      <article class="review-card"><div class="review-stars">★★★★★</div><h3>رأيك يهمنا</h3><p>اقتراحاتك بتساعدنا نقدم تجربة أحسن كل مرة.</p></article>
+      <article class="review-card"><div class="review-stars">★★★★★</div><h3>Love Pizza? ❤️</h3><p>ابعتلنا تقييمك ونقدر نضيفه للموقع بعد موافقتك.</p></article>
+    </div>
+    <div class="contact-actions">
+      <a class="btn whatsapp" href="https://wa.me/201043658291?text=حبيت%20أشارك%20تقييمي%20عن%20Pizza%20Heart%20❤️" target="_blank" rel="noopener">💬 ابعت تقييمك</a>
+    </div>
+  </div>
+</section>
+
 <section id="order">
   <div class="container">
     <div class="order-box">
@@ -267,8 +371,8 @@ footer img{width:190px;margin-bottom:12px}
     </div>
     <div class="info-grid">
       <div class="info"><div class="icon">📍</div><h4>العنوان</h4><p>أمام المحكمة - ش دكتور ظريف - أمام فخفخينا</p></div>
-      <div class="info"><div class="icon">📞</div><h4>اتصل بنا</h4><p>01043658291<br>01130801190</p></div>
-      <div class="info"><div class="icon">🛵</div><h4>خدمة التوصيل</h4><p>اطلب على WhatsApp وسيتم تأكيد الأوردر</p></div>
+      <div class="info"><div class="icon">📞</div><h4>اتصل بنا</h4><p>01043658291<br>01130801190</p><div class="contact-actions"><a class="btn call" href="tel:01043658291">010</a><a class="btn call" href="tel:01130801190">011</a></div></div>
+      <div class="info"><div class="icon">💬</div><h4>WhatsApp</h4><p>01043658291 فقط</p><div class="contact-actions"><a class="btn whatsapp" href="https://wa.me/201043658291" target="_blank" rel="noopener">افتح WhatsApp</a></div></div>
     </div>
   </div>
 </section>
@@ -280,7 +384,8 @@ footer img{width:190px;margin-bottom:12px}
   <small>© 2026 Pizza Heart. All rights reserved.</small>
 </footer>
 
-<a class="float-order" href="#order">💬 ORDER NOW</a>
+<button class="float-order" type="button" onclick="openCart()">🛒 ORDER NOW</button>
+<button id="cartFab" class="cart-fab" type="button" onclick="openCart()">🛒 <span id="cartCount" class="cart-count">0</span> CART</button>
 
 <script>
 const data = {
@@ -353,9 +458,14 @@ function render(id){
     const div=document.createElement("div");
     div.className="item";
     if(single){
-      div.innerHTML=`<span class="item-name">${name}${desc?`<span class="desc">${desc}</span>`:""}</span><span class="price">${p1} EGP</span>`;
+      div.className += " single-item";
+      div.innerHTML=`<span class="item-name">${name}${desc?`<span class="desc">${desc}</span>`:""}</span><span class="price">${p1} EGP</span><button class="add-btn" type="button" onclick="addToCart(${JSON.stringify(name)}, ${Number(p1) || 0}, '')">+ ADD</button>`;
     }else{
-      div.innerHTML=`<span class="item-name">${name}${desc?`<span class="desc">${desc}</span>`:""}</span><span class="price ${p1==='-'?'na':''}">${p1==='-'?'-':p1}</span><span class="price ${p2==='-'?'na':''}">${p2==='-'?'-':p2}</span>`;
+      div.className += " pizza-item";
+      div.innerHTML=`<span class="item-name">${name}${desc?`<span class="desc">${desc}</span>`:""}</span><span class="price ${p1==='-'?'na':''}">${p1==='-'?'-':p1}</span><span class="price ${p2==='-'?'na':''}">${p2==='-'?'-':p2}</span><span style="display:flex;gap:4px;justify-content:center">
+          ${p2!=="-" ? `<button class="add-btn" type="button" onclick="addToCart(${JSON.stringify(name)}, ${Number(p2)}, 'Medium')">M +</button>` : ""}
+          ${p1!=="-" ? `<button class="add-btn" type="button" onclick="addToCart(${JSON.stringify(name)}, ${Number(p1)}, 'Large')">L +</button>` : ""}
+        </span>`;
     }
     el.appendChild(div);
   });
@@ -371,6 +481,82 @@ document.querySelectorAll('a[href="#menu"]').forEach(link=>{
   });
 });
 
+
+let cart = [];
+
+function addToCart(name, price, size){
+  if(!price) return;
+  const key = `${name}|${size}|${price}`;
+  const found = cart.find(x=>x.key===key);
+  if(found) found.qty++;
+  else cart.push({key,name,price,size,qty:1});
+  updateCartUI();
+}
+
+function changeQty(key, delta){
+  const item=cart.find(x=>x.key===key);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty<=0) cart=cart.filter(x=>x.key!==key);
+  updateCartUI();
+  renderCart();
+}
+
+function cartTotal(){ return cart.reduce((s,x)=>s+x.price*x.qty,0); }
+
+function updateCartUI(){
+  const count=cart.reduce((s,x)=>s+x.qty,0);
+  const fab=document.getElementById("cartFab");
+  const countEl=document.getElementById("cartCount");
+  if(count>0){fab.classList.add("show");countEl.textContent=count}
+  else {fab.classList.remove("show");countEl.textContent="0"}
+}
+
+function renderCart(){
+  const list=document.getElementById("cartList");
+  const total=document.getElementById("cartTotal");
+  if(!cart.length){
+    list.innerHTML='<div class="empty-cart">السلة فاضية ❤️<br>اختار أكلك من المنيو واضغط + ADD</div>';
+  }else{
+    list.innerHTML=cart.map(x=>`
+      <div class="cart-line">
+        <div><strong>${x.name}</strong><small>${x.size?x.size+" • ":""}${x.price} EGP</small></div>
+        <div class="qty">
+          <button onclick="changeQty(${JSON.stringify(x.key)},-1)">−</button>
+          <strong>${x.qty}</strong>
+          <button onclick="changeQty(${JSON.stringify(x.key)},1)">+</button>
+        </div>
+        <strong>${x.price*x.qty} EGP</strong>
+      </div>`).join("");
+  }
+  total.textContent=cartTotal()+" EGP";
+}
+
+function openCart(){
+  document.getElementById("orderModal").classList.add("open");
+  renderCart();
+}
+function closeCart(){document.getElementById("orderModal").classList.remove("open")}
+
+function sendCartToWhatsApp(){
+  if(!cart.length) return;
+  let text="السلام عليكم، عايز أعمل أوردر من Pizza Heart 🍕❤️\n\n";
+  cart.forEach((x,i)=>{ text += `${i+1}) ${x.name}${x.size?" - "+x.size:""} × ${x.qty} = ${x.price*x.qty} EGP\n`; });
+  text += `\nالإجمالي: ${cartTotal()} EGP\n`;
+  text += "\nمن موقع Pizza Heart ❤️";
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`,"_blank");
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")});
+  },{threshold:.08});
+  document.querySelectorAll(".section-head,.menu-card,.offer-card,.review-card,.info,.order-box").forEach(el=>{
+    el.classList.add("reveal");io.observe(el);
+  });
+});
+
+
 document.querySelectorAll(".cat").forEach(btn=>{
   btn.addEventListener("click",()=>{
     document.querySelectorAll(".cat").forEach(b=>b.classList.remove("active"));
@@ -383,5 +569,26 @@ document.querySelectorAll(".cat").forEach(btn=>{
   });
 });
 </script>
+
+<div id="orderModal" class="order-modal" onclick="if(event.target===this)closeCart()">
+  <div class="order-panel">
+    <div class="order-panel-head">
+      <div><strong style="font-size:22px">🛒 Your Order</strong><div style="color:#999;font-size:12px">راجع طلبك قبل الإرسال</div></div>
+      <button class="close-modal" onclick="closeCart()">×</button>
+    </div>
+    <div id="cartList"></div>
+    <div class="total-row"><span>الإجمالي</span><span id="cartTotal">0 EGP</span></div>
+    <button class="btn checkout" onclick="sendCartToWhatsApp()">💬 SEND ORDER ON WHATSAPP</button>
+  </div>
+</div>
+
+<div class="mobile-bar">
+  <a href="#home"><span>🏠</span>Home</a>
+  <a href="#menu"><span>🍕</span>Menu</a>
+  <button onclick="openCart()"><span>🛒</span>Cart</button>
+  <a href="#contact"><span>📞</span>Contact</a>
+  <a href="#order"><span>❤️</span>Order</a>
+</div>
+
 </body>
 </html>
