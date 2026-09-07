@@ -1,0 +1,13 @@
+{
+  "name": "Pizza Heart | بيتزا هارت",
+  "short_name": "Pizza Heart",
+  "description": "Pizza Heart restaurant menu and online ordering",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#17110d",
+  "theme_color": "#c1272d",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": []
+}

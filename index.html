@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pizza Heart | بيتزا هارت</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#c1272d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -207,6 +212,8 @@
   .scroll-progress{position:fixed;top:0;right:0;height:3px;width:0;background:var(--gold);z-index:999}
   .loader{position:fixed;inset:0;background:#17110d;display:flex;align-items:center;justify-content:center;z-index:9999;transition:.45s}.loader.hide{opacity:0;visibility:hidden}.loader-brand{font-size:3rem;font-weight:1000;letter-spacing:.08em}.loader-brand span{color:var(--red)}
   @media(max-width:760px){.fulfillment{grid-template-columns:1fr 1fr}}
+
+  .install-app-btn{display:block;margin:0 auto 18px;background:transparent;color:var(--gold);border:1px solid var(--gold-soft);padding:9px 16px;border-radius:999px;font-weight:800;cursor:pointer;transition:.2s ease}.install-app-btn:hover{background:rgba(232,179,61,.08);transform:translateY(-1px)}
 </style>
 </head>
 <body><div class="scroll-progress" id="scrollProgress"></div><div class="loader" id="loader"><div class="loader-brand">PIZZA <span>♥</span> HEART</div></div>
@@ -261,7 +268,7 @@
       <span class="kicker">المنيو</span>
       <h2>اختار طلبك</h2>
     </div>
-    <input id="menuSearch" class="menu-search" type="search" placeholder="🔎 دور على صنف من المنيو..."><div class="tabs" id="tabs"></div>
+    <input id="menuSearch" class="menu-search" type="search" placeholder="🔎 دور على صنف من المنيو..."><button id="installAppBtn" class="install-app-btn" type="button" style="display:none">📲 ثبّت Pizza Heart على الموبايل</button><div class="tabs" id="tabs"></div>
     <div id="panels"></div>
   </div>
 </section>
@@ -459,6 +466,32 @@ const MENU = [
 
 let cart = []; // { key, name, catLabel, size, price, qty }
 
+/* ---------- Automatic Best Seller tracking ---------- */
+function loadSales(){
+  try { return JSON.parse(localStorage.getItem('pizzaHeartSales') || '{}'); } catch(e){ return {}; }
+}
+function saveSales(sales){ localStorage.setItem('pizzaHeartSales', JSON.stringify(sales)); }
+function recordOrderSales(){
+  const sales=loadSales();
+  cart.forEach(l=>{
+    sales[l.name]=(sales[l.name]||0)+l.qty;
+  });
+  saveSales(sales);
+}
+function getBestSellerNames(){
+  const sales=loadSales();
+  return Object.entries(sales).sort((a,b)=>b[1]-a[1]).slice(0,5).filter(x=>x[1]>0).map(x=>x[0]);
+}
+function updateBestSellerBadges(){
+  const best=new Set(getBestSellerNames());
+  document.querySelectorAll('.item-card').forEach(card=>{
+    const h=card.querySelector('h4'); if(!h) return;
+    const existing=h.querySelector('.best-badge'); if(existing) existing.remove();
+    const name=h.childNodes[0]?.textContent?.trim();
+    if(best.has(name)){ const badge=document.createElement('span'); badge.className='best-badge'; badge.textContent='BEST SELLER 🔥'; h.appendChild(badge); }
+  });
+}
+
 /* ---------- Build tabs & panels ---------- */
 const tabsEl = document.getElementById('tabs');
 const panelsEl = document.getElementById('panels');
@@ -478,7 +511,8 @@ function buildCategoryBlock(cat){
     const [name, p1, p2, _unused, note] = it;
     const card = document.createElement('div');
     card.className = 'item-card reveal';
-    let badge = ['شاورما فراخ','تشيكن رانش','بيتزا هارت','كلاسيك برجر','تشيز برجر'].includes(name) ? ' <span class="best-badge">BEST SELLER 🔥</span>' : ''; let html = '<h4>' + name + badge + '</h4>';
+    const bestSellerNames = getBestSellerNames();
+    let badge = bestSellerNames.includes(name) ? ' <span class="best-badge">BEST SELLER 🔥</span>' : ''; let html = '<h4>' + name + badge + '</h4>';
     if (note) html += '<p class="note">' + note + '</p>';
     html += '<div class="price-row">';
     if (cat.cols) {
@@ -639,6 +673,8 @@ function sendOrderWhatsapp(){
   msg += '\nالأوردر:\n';
   cart.forEach((l,i)=>{msg += `${i+1}) ${l.name}${l.size ? ' ('+l.size+')':''} ×${l.qty} — ${l.price*l.qty} EGP\n`;});
   msg += `――――――――――\nالإجمالي: ${cartTotal()} EGP`;
+  recordOrderSales();
+  updateBestSellerBadges();
   window.open('https://wa.me/201043658291?text='+encodeURIComponent(msg),'_blank');
 }
 
@@ -729,6 +765,26 @@ document.querySelectorAll('input[name="fulfillment"]').forEach(r=>r.addEventList
 // v3: progress + loader
 window.addEventListener('scroll',()=>{const d=document.documentElement,p=100*scrollY/(d.scrollHeight-innerHeight);document.getElementById('scrollProgress').style.width=Math.max(0,Math.min(100,p))+'%';},{passive:true});
 window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader')?.classList.add('hide'),450));
+
+/* ---------- PWA ---------- */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+let deferredInstallPrompt=null;
+window.addEventListener('beforeinstallprompt', e=>{
+  e.preventDefault(); deferredInstallPrompt=e;
+  const btn=document.getElementById('installAppBtn'); if(btn) btn.style.display='block';
+});
+document.getElementById('installAppBtn')?.addEventListener('click', async ()=>{
+  if(!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt=null;
+  const btn=document.getElementById('installAppBtn'); if(btn) btn.style.display='none';
+});
+window.addEventListener('appinstalled',()=>{
+  const btn=document.getElementById('installAppBtn'); if(btn) btn.style.display='none';
+});
 </script>
 
 </body>
