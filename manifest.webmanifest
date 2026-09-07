@@ -9,5 +9,12 @@
   "theme_color": "#c1272d",
   "lang": "ar",
   "dir": "rtl",
-  "icons": []
+  "icons": [
+    {
+      "src": "./favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
