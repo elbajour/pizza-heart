@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pizza-heart-v8';
+const CACHE_NAME = 'pizza-heart-v9';
 const CORE = ['./', './index.html', './manifest.webmanifest'];
 
 self.addEventListener('install', event => {
